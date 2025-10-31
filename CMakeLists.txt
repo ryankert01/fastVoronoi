@@ -44,12 +44,12 @@ pybind11_add_module(_fastvoronoi
 
 # Set output directory
 set_target_properties(_fastvoronoi PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/python
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/fastvoronoi
 )
 
 # Install target
 install(TARGETS _fastvoronoi
-    LIBRARY DESTINATION python
+    LIBRARY DESTINATION fastvoronoi
 )
 
 # Option to build tests
