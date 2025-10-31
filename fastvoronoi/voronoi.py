@@ -30,8 +30,8 @@ except ImportError:
     ctx = None
 
 try:
-    from _fastvoronoi import VoronoiDiagram as _VoronoiDiagram
-    from _fastvoronoi import Point as _Point
+    from ._fastvoronoi import VoronoiDiagram as _VoronoiDiagram
+    from ._fastvoronoi import Point as _Point
     NATIVE_AVAILABLE = True
 except ImportError:
     NATIVE_AVAILABLE = False
