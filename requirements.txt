@@ -1,0 +1,29 @@
+# Requirements for fastVoronoi
+
+## Core Dependencies
+
+numpy>=1.20.0
+
+## Optional Dependencies
+
+# GIS functionality
+geopandas>=0.10.0
+shapely>=1.8.0
+
+# Visualization
+matplotlib>=3.3.0
+contextily>=1.2.0
+
+## Build Dependencies
+
+# These are needed to build the C++ extension
+# pybind11>=2.6.0
+# cmake>=3.15
+
+## Development Dependencies
+
+pytest>=6.0
+pytest-cov>=2.0
+black>=22.0
+flake8>=4.0
+mypy>=0.950
