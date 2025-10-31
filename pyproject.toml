@@ -47,7 +47,7 @@ Repository = "https://github.com/ryankert01/fastVoronoi"
 "Bug Tracker" = "https://github.com/ryankert01/fastVoronoi/issues"
 
 [tool.setuptools]
-packages = ["python"]
+packages = ["fastvoronoi"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

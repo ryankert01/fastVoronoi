@@ -7,7 +7,7 @@ README.md
 
 include include/*.h
 include src/*.cpp
-include python/*.py
+include fastvoronoi/*.py
 include tests/*.cpp
 include tests/*.py
 include examples/*.py
