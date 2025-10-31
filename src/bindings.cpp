@@ -73,7 +73,11 @@ PYBIND11_MODULE(_fastvoronoi, m)
              "Find nearest generator point to query point")
         .def("find_nearest", py::overload_cast<const std::vector<Point> &>(&VoronoiDiagram::findNearest, py::const_),
              "Find nearest generator points for multiple query points")
-        .def("get_bounds", &VoronoiDiagram::getBounds, "Get bounding box of all sites");
+        .def("get_bounds", [](const VoronoiDiagram &diagram) {
+            double minX, maxX, minY, maxY;
+            diagram.getBounds(minX, maxX, minY, maxY);
+            return py::make_tuple(minX, maxX, minY, maxY);
+        }, "Get bounding box of all sites as tuple (minX, maxX, minY, maxY)");
 
     // Helper function to create VoronoiDiagram from numpy array
     m.def("build_from_array", [](py::array_t<double> points_array)
