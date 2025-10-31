@@ -52,7 +52,7 @@ Input/Output
 
 Modularization
   The system is divided into two decoupled layers:
-    1. **C++ Core Layer**: Implements Fortune's algorithm, data structures
+    1. **C++ Core Layer**: Implements divide-and-conquer algorithm, data structures
        (VoronoiCell, Point, Edge), and grid index.
     2. **Python Wrapper Layer**: Uses pybind11 to expose core C++ functionality
        as a Python module.
@@ -180,7 +180,7 @@ Engineering Infrastructure
 Schedule
 ========
 
-* Week 1 (09/22): Build a prototype for fortune algorithms and data structures.
+* Week 1 (09/22): Build a prototype for divide-and-conquer algorithms and data structures.
   Identify the core algorithms.
 * Week 2 (09/29): Keep building prototype and develop simple C++ testcases.
 * Week 3 (10/06): Redesign and construct the prototyped code(algorithm and data
@@ -201,6 +201,5 @@ Schedule
 References
 ==========
 
-1. Fortune, S. (1986). A sweepline algorithm for Voronoi diagrams. https://doi.org/10.1145/10515.1054
 2. pybind11 Documentation. https://pybind11.readthedocs.io/en/stable/
 3. CMake Documentation. https://cmake.org/cmake/help/latest/

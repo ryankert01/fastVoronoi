@@ -1,0 +1,13 @@
+MANIFEST.in
+pyproject.toml
+setup.py
+CMakeLists.txt
+LICENSE
+README.md
+
+include include/*.h
+include src/*.cpp
+include python/*.py
+include tests/*.cpp
+include tests/*.py
+include examples/*.py

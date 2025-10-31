@@ -1,0 +1,61 @@
+# Build directories
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# C++ compilation artifacts
+*.o
+*.a
+*.lib
+*.exe
+*.out
+*.app
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Documentation
+docs/_build/
+*.pdf
+
+# Output files
+*.png
+*.jpg
+*.geojson
+*.shp
+*.shx
+*.dbf
