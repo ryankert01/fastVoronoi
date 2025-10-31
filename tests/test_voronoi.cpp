@@ -8,6 +8,7 @@
 #include "VoronoiDiagram.h"
 #include <vector>
 #include <cmath>
+#include <chrono>
 
 using namespace fastvoronoi;
 
