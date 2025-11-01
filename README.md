@@ -263,13 +263,6 @@ pip install -e . --no-build-isolation -v
 - C++: Follow standard C++14 practices
 - Python: Follow PEP 8 (use `black` for formatting)
 
-## Roadmap
-
-- [x] Week 1-4: Core algorithm and data structures
-- [x] Week 5: Visualization
-- [ ] Week 6-7: Multi-threaded optimizations
-- [ ] Week 8: Performance benchmarks, documentation, 1.0 release
-
 ## Contributing
 
 Contributions are welcome! Please:
@@ -289,10 +282,10 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 If you use fastVoronoi in your research, please cite:
 
 ```bibtex
-@software{fastvoronoi2024,
+@software{fastvoronoi2025,
   title = {fastVoronoi: High-Performance Voronoi Diagram Toolkit},
-  author = {Ryan Kert},
-  year = {2024},
+  author = {Ryan Huang},
+  year = {2025},
   url = {https://github.com/ryankert01/fastVoronoi}
 }
 ```
