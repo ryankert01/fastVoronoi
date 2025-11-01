@@ -32,7 +32,7 @@ jobs:
     
     - name: Run Python tests
       run: |
-        pytest tests/test_python.py -v
+        pytest tests/python/test_python.py -v
     
     - name: Install optional dependencies
       run: |
