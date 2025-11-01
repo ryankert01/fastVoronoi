@@ -6,14 +6,14 @@ import numpy as np
 from typing import Optional, Union, List, Tuple
 try:
     import geopandas as gpd
-    from shapely.geometry import Point as ShapelyPoint, Polygon, MultiPolygon
+    from shapely.geometry import Point as ShapelyPoint, Polygon
     GEOPANDAS_AVAILABLE = True
 except ImportError:
     GEOPANDAS_AVAILABLE = False
     gpd = None
     ShapelyPoint = None
     Polygon = None
-    MultiPolygon = None
+    pass
 
 try:
     import matplotlib.pyplot as plt

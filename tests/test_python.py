@@ -9,8 +9,8 @@ import numpy as np
 def test_import():
     """Test that the package can be imported."""
     try:
-        import fastvoronoi
-        assert hasattr(fastvoronoi, 'Voronoi')
+        from fastvoronoi import Voronoi
+        assert Voronoi is not None
     except ImportError:
         pytest.skip("Native extension not built")
 
@@ -172,12 +172,12 @@ def test_invalid_input():
     # Invalid array shape
     with pytest.raises(ValueError):
         points = np.array([1, 2, 3])
-        v = Voronoi(points)
+        Voronoi(points)
     
     # Empty array
     with pytest.raises(Exception):
         points = np.array([])
-        v = Voronoi(points)
+        Voronoi(points)
 
 
 def test_properties():
