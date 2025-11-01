@@ -29,16 +29,16 @@ if(NOT pybind11_FOUND)
 endif()
 
 # Include directories
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/cpp/include)
 
 # Source files
 set(SOURCES
-    src/VoronoiDiagram.cpp
+    cpp/src/VoronoiDiagram.cpp
 )
 
 # Create Python module
 pybind11_add_module(_fastvoronoi 
-    src/bindings.cpp
+    cpp/src/bindings.cpp
     ${SOURCES}
 )
 
@@ -73,7 +73,7 @@ if(BUILD_TESTS)
     
     # Test executable
     add_executable(voronoi_tests
-        tests/test_voronoi.cpp
+        tests/cpp/test_voronoi.cpp
         ${SOURCES}
     )
     

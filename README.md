@@ -188,12 +188,12 @@ See the `examples/` directory for complete examples:
 
 ### Two-Layer Design
 
-1. **C++ Core Layer** (`include/`, `src/`)
+1. **C++ Core Layer** (`cpp/include/`, `cpp/src/`)
    - Implements divide-and-conquer Voronoi algorithm
    - Data structures: Point, Edge, VoronoiCell, VoronoiDiagram
    - High-performance computation
 
-2. **Python Wrapper Layer** (`python/`)
+2. **Python Wrapper Layer** (`fastvoronoi/`)
    - pybind11 bindings for C++ core
    - GeoPandas integration
    - Visualization with matplotlib/contextily
@@ -209,7 +209,7 @@ See the `examples/` directory for complete examples:
 ### Run Python Tests
 
 ```bash
-pytest tests/test_python.py -v
+pytest tests/python/ -v
 ```
 
 ### Build and Run C++ Tests
@@ -227,20 +227,23 @@ ctest
 
 ```
 fastVoronoi/
-├── include/          # C++ headers
-│   ├── Point.h
-│   ├── Edge.h
-│   ├── VoronoiCell.h
-│   └── VoronoiDiagram.h
-├── src/              # C++ implementation
-│   ├── VoronoiDiagram.cpp
-│   └── bindings.cpp
-├── python/           # Python module
+├── cpp/              # C++ code
+│   ├── include/      # C++ headers
+│   │   ├── Point.h
+│   │   ├── Edge.h
+│   │   ├── VoronoiCell.h
+│   │   └── VoronoiDiagram.h
+│   └── src/          # C++ implementation
+│       ├── VoronoiDiagram.cpp
+│       └── bindings.cpp
+├── fastvoronoi/      # Python package
 │   ├── __init__.py
 │   └── voronoi.py
 ├── tests/            # Test files
-│   ├── test_voronoi.cpp
-│   └── test_python.py
+│   ├── cpp/          # C++ tests
+│   │   └── test_voronoi.cpp
+│   └── python/       # Python tests
+│       └── test_python.py
 ├── examples/         # Example scripts
 ├── CMakeLists.txt    # CMake build configuration
 ├── pyproject.toml    # Python package metadata
