@@ -43,7 +43,7 @@ pip install -e ".[viz]"  # Visualization tools
 - Follow PEP 8 style guide
 - Use `black` for code formatting:
   ```bash
-  black python/ tests/
+  black fastvoronoi/ tests/python/
   ```
 - Use type hints where appropriate
 - Write docstrings for all public functions and classes
@@ -68,7 +68,7 @@ pip install -e ".[viz]"  # Visualization tools
 
 ```bash
 # Python tests
-pytest tests/test_python.py -v
+pytest tests/python/ -v
 
 # C++ tests (if built with -DBUILD_TESTS=ON)
 cd build
