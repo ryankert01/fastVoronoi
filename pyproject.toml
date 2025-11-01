@@ -48,6 +48,7 @@ Repository = "https://github.com/ryankert01/fastVoronoi"
 
 [tool.setuptools]
 packages = ["fastvoronoi"]
+package-dir = {"" = "."}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
