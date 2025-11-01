@@ -27,7 +27,7 @@ def benchmark_query(voronoi, n_queries):
     
     # Time the queries
     start = time.time()
-    nearest = voronoi.find_nearest(queries)
+    voronoi.find_nearest(queries)
     query_time = time.time() - start
     
     return query_time
