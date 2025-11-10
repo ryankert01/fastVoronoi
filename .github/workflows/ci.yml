@@ -30,6 +30,18 @@ jobs:
       run: |
         pip install -e .
     
+    - name: Build C++ tests
+      run: |
+        mkdir -p build_test
+        cd build_test
+        cmake .. -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 2)
+    
+    - name: Run C++ tests
+      run: |
+        cd build_test
+        ./voronoi_tests
+    
     - name: Run Python tests
       run: |
         pytest tests/python/test_python.py -v
