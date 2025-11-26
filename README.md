@@ -1,6 +1,6 @@
 # fastVoronoi
 
-A high-performance Voronoi diagram toolkit designed for applied spatial analytics and seamless integration into modern GIS workflows (GeoPandas).
+A high-performance Voronoi diagram toolkit designed for applied spatial analytics.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -12,7 +12,6 @@ A high-performance Voronoi diagram toolkit designed for applied spatial analytic
 - 🚀 **High Performance**: C++ core with divide-and-conquer algorithm
 - 🗺️ **GIS Integration**: Native GeoPandas support for geospatial workflows
 - 🎯 **Easy to Use**: Pythonic API with minimal learning curve
-- 📊 **Visualization**: Built-in plotting with optional basemap support
 - 🔍 **Fast Queries**: Efficient nearest neighbor search
 
 ### Key Features
