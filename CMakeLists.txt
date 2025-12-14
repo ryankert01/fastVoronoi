@@ -1,86 +1,73 @@
 cmake_minimum_required(VERSION 3.15)
-project(fastVoronoi VERSION 0.1.0 LANGUAGES CXX)
+project(fortune_voronoi)
 
-# Set C++ standard
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Set optimization flags
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+# Find Python
+find_package(
+  Python
+  COMPONENTS Interpreter Development
+  REQUIRED)
+
+# Find pybind11 When pybind11 is installed via pip, use Python to locate it
+execute_process(
+  COMMAND "${Python_EXECUTABLE}" -m pybind11 --cmakedir
+  OUTPUT_VARIABLE pybind11_DIR
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  RESULT_VARIABLE pybind11_RESULT)
+
+if(pybind11_RESULT EQUAL 0)
+  # pybind11 found via Python, use the provided CMAKE directory
+  set(pybind11_DIR "${pybind11_DIR}")
+  find_package(pybind11 CONFIG REQUIRED)
+else()
+  # Fallback to standard CMake find
+  find_package(pybind11 REQUIRED)
 endif()
 
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-
-# Find Python and pybind11
-find_package(Python COMPONENTS Interpreter Development REQUIRED)
-find_package(pybind11 CONFIG)
-
-if(NOT pybind11_FOUND)
-    # Download pybind11 if not found
-    include(FetchContent)
-    FetchContent_Declare(
-        pybind11
-        GIT_REPOSITORY https://github.com/pybind/pybind11.git
-        GIT_TAG v2.11.1
-    )
-    FetchContent_MakeAvailable(pybind11)
-endif()
+# Create the Python module
+pybind11_add_module(fortune_voronoi src/bindings.cpp src/fortune.cpp)
 
 # Include directories
-include_directories(${CMAKE_SOURCE_DIR}/cpp/include)
+target_include_directories(fortune_voronoi PRIVATE include)
 
-# Source files
-set(SOURCES
-    cpp/src/VoronoiDiagram.cpp
-)
+# Installation
+install(TARGETS fortune_voronoi DESTINATION .)
 
-# Create Python module
-pybind11_add_module(_fastvoronoi 
-    cpp/src/bindings.cpp
-    ${SOURCES}
-)
-
-# Set output directory
-set_target_properties(_fastvoronoi PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/fastvoronoi
-)
-
-# Install target
-install(TARGETS _fastvoronoi
-    LIBRARY DESTINATION fastvoronoi
-)
-
-# Option to build tests
-option(BUILD_TESTS "Build tests" OFF)
+# Google Test for C++ unit tests
+option(BUILD_TESTS "Build C++ tests" ON)
+option(ENABLE_COVERAGE "Enable code coverage" OFF)
 
 if(BUILD_TESTS)
-    enable_testing()
-    
-    # Find Google Test
-    find_package(GTest)
-    
-    if(NOT GTest_FOUND)
-        include(FetchContent)
-        FetchContent_Declare(
-            googletest
-            GIT_REPOSITORY https://github.com/google/googletest.git
-            GIT_TAG release-1.12.1
-        )
-        FetchContent_MakeAvailable(googletest)
-    endif()
-    
-    # Test executable
-    add_executable(voronoi_tests
-        tests/cpp/test_voronoi.cpp
-        ${SOURCES}
-    )
-    
-    target_link_libraries(voronoi_tests
-        GTest::gtest_main
-    )
-    
-    include(GoogleTest)
-    gtest_discover_tests(voronoi_tests)
+  # Download and configure GoogleTest
+  include(FetchContent)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG v1.14.0)
+  # For Windows: Prevent overriding the parent project's compiler/linker
+  # settings
+  set(gtest_force_shared_crt
+      ON
+      CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest)
+
+  enable_testing()
+
+  # Create C++ test executable
+  add_executable(fortune_tests tests/cpp/test_voronoi.cpp src/fortune.cpp)
+
+  target_include_directories(fortune_tests PRIVATE include)
+  target_link_libraries(fortune_tests GTest::gtest_main)
+
+  # Enable coverage if requested
+  if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(fortune_tests PRIVATE --coverage -O0 -g)
+    target_link_options(fortune_tests PRIVATE --coverage)
+  endif()
+
+  # Discover tests
+  include(GoogleTest)
+  gtest_discover_tests(fortune_tests)
 endif()

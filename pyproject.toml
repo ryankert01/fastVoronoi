@@ -1,67 +1,19 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "pybind11>=2.6.0", "cmake>=3.15"]
+requires = ["setuptools>=42", "wheel", "cmake>=3.15", "pybind11>=2.6.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fastvoronoi"
+name = "fortune-voronoi"
 version = "0.1.0"
-description = "High-performance Voronoi diagram toolkit for geospatial analysis"
-readme = "README.md"
-requires-python = ">=3.8"
-license = { text = "Apache-2.0" }
-authors = [{ name = "Ryan Huang", email = "ryankert01@gmail.com" }]
-keywords = ["voronoi", "computational-geometry", "gis", "spatial-analysis"]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Science/Research",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
-    "Programming Language :: C++",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Topic :: Scientific/Engineering :: GIS",
-    "Topic :: Scientific/Engineering :: Visualization",
+description = "Fortune's algorithm for computing Voronoi diagrams"
+requires-python = ">=3.7"
+dependencies = [
+    "numpy>=1.19.0",
 ]
-
-dependencies = ["numpy>=1.20.0"]
 
 [project.optional-dependencies]
-gis = ["geopandas>=0.10.0", "shapely>=1.8.0"]
-viz = ["matplotlib>=3.3.0", "contextily>=1.2.0"]
-dev = [
+test = [
     "pytest>=6.0",
-    "pytest-cov>=2.0",
-    "black>=22.0",
-    "flake8>=4.0",
-    "mypy>=0.950",
+    "scipy>=1.5.0",
+    "matplotlib>=3.0.0",
 ]
-all = ["fastvoronoi[gis,viz,dev]"]
-
-[project.urls]
-Homepage = "https://github.com/ryankert01/fastVoronoi"
-Documentation = "https://github.com/ryankert01/fastVoronoi#readme"
-Repository = "https://github.com/ryankert01/fastVoronoi"
-"Bug Tracker" = "https://github.com/ryankert01/fastVoronoi/issues"
-
-[tool.setuptools]
-packages = ["fastvoronoi"]
-package-dir = {"" = "."}
-
-[tool.pytest.ini_options]
-testpaths = ["tests/python"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-
-[tool.black]
-line-length = 88
-target-version = ['py38', 'py39', 'py310', 'py311']
-
-[tool.mypy]
-python_version = "3.8"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = false

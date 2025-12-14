@@ -1,33 +1,19 @@
-# Build directories
-build/
-dist/
-*.egg-info/
-.eggs/
-_codeql_build_dir/
-_codeql_detected_source_root
-
-# Python cache
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
-*.pyd
-
-# C++ compilation artifacts
-*.o
-*.a
-*.lib
-*.exe
-*.out
-*.app
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
 
 # CMake
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
+Makefile
 
 # IDE
 .vscode/
@@ -35,29 +21,28 @@ CTestTestfile.cmake
 *.swp
 *.swo
 *~
-.DS_Store
 
-# Testing
+# Build artifacts
+*.o
+*.a
+*.dylib
+*.dll
+
+# Test artifacts
 .pytest_cache/
 .coverage
 htmlcov/
-*.cover
-.hypothesis/
+fortune_tests
+_deps/
 
-# Virtual environments
-venv/
-env/
-ENV/
-.venv
+# Coverage
+*.info
+coverage_html/
+coverage_filtered.info
 
-# Documentation
-docs/_build/
-*.pdf
+# Linting
+.clang-tidy-cache/
 
-# Output files
-*.png
-*.jpg
-*.geojson
-*.shp
-*.shx
-*.dbf
+# OS
+.DS_Store
+Thumbs.db

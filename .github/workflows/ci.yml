@@ -2,54 +2,157 @@ name: CI
 
 on:
   push:
-    branches: ["main"]
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
-  build-and-test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        python-version: ['3.11']
+  test-cpp:
+    name: C++ Tests with Coverage
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++ lcov
+        pip install pybind11
+
+    - name: Configure CMake with coverage
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. -DBUILD_TESTS=ON -DENABLE_COVERAGE=ON
+
+    - name: Build C++ tests
+      run: |
+        cd build
+        make fortune_tests -j$(nproc)
+
+    - name: Run C++ tests
+      run: |
+        cd build
+        ./fortune_tests
+
+    - name: Generate coverage report
+      run: |
+        cd build
+        lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch
+        lcov --remove coverage.info '/usr/*' '*/pybind11/*' '*/googletest/*' '*/tests/*' --output-file coverage_filtered.info --ignore-errors unused
+        lcov --list coverage_filtered.info
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        files: ./build/coverage_filtered.info
+        flags: cpp
+        name: cpp-coverage
+        fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
+
+  test-python:
+    name: Python Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v4
+
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install cmake pybind11 numpy pytest
-    
-    - name: Build extension
+        pip install pytest numpy scipy matplotlib pybind11
+
+    - name: Build package
       run: |
         pip install -e .
-    
-    - name: Build C++ tests
-      run: |
-        mkdir -p build_test
-        cd build_test
-        cmake .. -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release
-        make -j$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 2)
-    
-    - name: Run C++ tests
-      run: |
-        cd build_test
-        ./voronoi_tests
-    
+
     - name: Run Python tests
       run: |
-        pytest tests/python/test_python.py -v
-    
-    - name: Install optional dependencies
-      run: |
-        pip install geopandas shapely matplotlib
-    
-    - name: Run full tests
-      run: |
         pytest tests/ -v
+
+  build-docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy scipy matplotlib pybind11
+
+    - name: Build package
+      run: |
+        pip install -e .
+
+    - name: Run example
+      run: |
+        python examples/basic_usage.py
+
+    - name: Verify README examples
+      run: |
+        python -c "import numpy as np; import fortune_voronoi; points = np.array([[0, 0], [0, 1], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]]); vor = fortune_voronoi.Voronoi(points); print('✓ Example from README works correctly'); print(f'  Vertices: {vor.vertices.shape}'); print(f'  Ridge points: {vor.ridge_points.shape}')"
+
+  lint:
+    name: Code Linting
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-format clang-tidy
+        python -m pip install --upgrade pip
+        pip install flake8 black pre-commit pybind11
+
+    - name: Check C++ formatting with clang-format
+      run: |
+        clang-format --version
+        find src include tests/cpp -name "*.cpp" -o -name "*.h" | xargs clang-format --dry-run --Werror || {
+          echo "❌ C++ formatting issues found. Run 'pre-commit run clang-format --all-files' to fix."
+          exit 1
+        }
+
+    - name: Check Python formatting with black
+      run: |
+        black --check tests/ examples/ --line-length=100 || {
+          echo "❌ Python formatting issues found. Run 'black tests/ examples/ --line-length=100' to fix."
+          exit 1
+        }
+
+    - name: Lint Python code with flake8
+      run: |
+        flake8 tests/ examples/ --max-line-length=100 --extend-ignore=E203,W503 || {
+          echo "❌ Python linting issues found. Fix the issues reported above."
+          exit 1
+        }
+
+    - name: Run pre-commit hooks
+      run: |
+        pre-commit run --all-files --show-diff-on-failure || {
+          echo "❌ Pre-commit checks failed. Install pre-commit and run 'pre-commit run --all-files' locally."
+          exit 1
+        }
