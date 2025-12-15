@@ -1,0 +1,20 @@
+[run]
+source = .
+omit = 
+    */tests/*
+    */test_*
+    setup.py
+    */site-packages/*
+    */pybind11/*
+    build/*
+    examples/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+    @abstractmethod

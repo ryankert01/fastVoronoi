@@ -7,10 +7,12 @@ coverage:
     patch:
       default:
         target: auto
+        threshold: 1%
 
 comment:
   layout: "header, diff, flags, files"
   behavior: default
+  require_changes: false
 
 flags:
   cpp:
@@ -26,3 +28,4 @@ ignore:
   - "build"
   - "tests/cpp"
   - "examples"
+  - "setup.py"
