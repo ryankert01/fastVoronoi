@@ -1,4 +1,4 @@
-# fortune
+# fastVoronoi
 
 [![CI](https://github.com/ryankert01/fortune/actions/workflows/ci.yml/badge.svg)](https://github.com/ryankert01/fortune/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/ryankert01/fortune/branch/main/graph/badge.svg)](https://codecov.io/gh/ryankert01/fortune)
